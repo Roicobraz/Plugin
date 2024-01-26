@@ -8,11 +8,21 @@
 		echo($categories->getBoard());	
 	}
 
-	function shapeSpace_modify_requests() {
-			global $wpdb;
-			return("INSERT INTO {$wpdb->prefix}terms_template (active, id, term_id) VALUES ({$_POST['active']}, {$_POST['id']}, {$_POST['template']})");
+/*add_action( 'edit_terms', 'do_something_or_stop_update', 10, 2 ); 
+
+function do_something_or_stop_update( $term_id, $taxonomy ){
+	echo('test');
+}*/
+
+
+	function pdf_save_magazine($term_id, $tt_id, $taxonomy) {
+		$term = get_term($term_id, $taxonomy);
+		$term_slug = $term->slug;
 	}
-	do_action( 'save_post', $_POST['id']);
+
+//	add_action( 'edit_term', 'pdf_save_magazine', 10, 3 );
+add_action( "save_{$taxonomy}", 'pdf_save_magazine', 10, 3 );
+//add_action( 'save_post_tag', 'capitaine_reading_time', 10, 3 );
 
 	function my_custom_fields() {  
 		global $wpdb;
@@ -111,7 +121,7 @@
 		});
 	</script>
 	<?
-	} 
+	}
 
 //	add_action('category_add_form_fields', 'my_custom_fields', 10, 2 );
 //	add_action('post_tag_add_form_fields', 'my_custom_fields', 10, 2 );
