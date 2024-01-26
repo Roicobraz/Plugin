@@ -8,6 +8,12 @@
 		echo($categories->getBoard());	
 	}
 
+	function shapeSpace_modify_requests() {
+			global $wpdb;
+			return("INSERT INTO {$wpdb->prefix}terms_template (active, id, term_id) VALUES ({$_POST['active']}, {$_POST['id']}, {$_POST['template']})");
+	}
+	do_action( 'save_post', $_POST['id']);
+
 	function my_custom_fields() {  
 		global $wpdb;
 		$request = $wpdb->get_results("SELECT active, id FROM {$wpdb->prefix}terms_template where term_id={$_REQUEST['tag_ID']}");
