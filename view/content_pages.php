@@ -61,7 +61,7 @@
 			</td>
 		</tr>
 <!--
-		<tr>
+		<tr
 			<th scope="row">
 				<input class="button" type="submit" value="mettre à jour le template">
 			</th>
