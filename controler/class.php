@@ -2,8 +2,8 @@
 class tableau {
 //propriété
 	private $board;
+	private $row;
 	private $title;
-
 	private $active;
 //méthode
 	public function setTitle($titles){
@@ -25,46 +25,43 @@ class tableau {
 	public function setActive($check, $cross){
 		$this->active = array($check, $cross);
 	}
+	
 	public function getActive(){
 		return($this->active);
 	}
-		
-	public function setBoard($taxname){	
-		
-		$title = $this->getTitle();
-		
-		$code_html = '';
-		for ($i = 0; $i < count($this->term_name); $i++){
-			$name = $this->term_name[$i];
-			$id = $this->term_id[$i];
-			
-			if(empty($this->term_on[$i]))
-			{
-				$template = "-";
-			}
-			else
-			{
-				$template = get_the_title($this->term_template[$i]);
-			}
-						
-			$code_html .= '
-			<tr>
-				<td>
-					'.$name.'
-				</td>
-				<td>
-					'.$id.'
-				</td>
-				<td>
-					'.$template.'
-				</td>				
-				<td>
-					'.$this->active.'
-				</td>
-			</tr>';
+	
+	public function setRow($elements){	
+		$row = '<tr>';
+		foreach ($elements as $element)
+		{
+			$row .= '
+				<td class="manage-column">
+					'.$element.'
+				</td>';
 		}
+		$row .= '</tr>';
+
+		$this->row = $row;
+	}
+	
+	public function getRow(){	
+		return($this->row);
+	}
 		
-		$content = '
+	public function setBoard($title, $content){	
+		$code_html = '';
+		foreach ($content as $test)
+		{
+			print_r($test);
+			$code_html .= '
+				<tr>
+					<td class="manage-column">';
+			$code_html .= str_replace('', '', $test);
+			$code_html .= '
+					</td>
+				</tr>';
+		}
+		$code_html = '
 		<table class="wp-list-table widefat fixed striped table-view-list pages">
 			<thead>
 				'.$title.'
@@ -78,7 +75,7 @@ class tableau {
 		</table>
 		';
 		
-		$this->board = $content;
+		$this->board = $code_html;
 	}
 	
 	public function getBoard(){	

@@ -1,120 +1,94 @@
 <?php 
-class listtax extends tableau{
+class tax{
 //propriété
-	private $tax;
-	private $terms;
+	private $taxname;
+	private $terms_id;
 	private $cpt;
 //méthode
-	public function setTax($taxname){
-		$this->tax = $taxname;
+	public function setTaxname($string){
+		$this->taxname = $string;
 	}
 	
-	public function getTax(){
-		return($this->tax);
+	public function getTaxname(){
+		return($this->taxname);
 	}
 	
-	public function setTerms() {
-		$this->terms = array();
-		$content = '';
+	public function setTerms_id($tax) {
 		$categorie = array('categories', 'categorie', 'category', 'Categories', 'Categorie', 'Category');
-		$tag = array('tags', 'tag', 'Tags', 'Tag');
-		foreach( $this->getTax() as $wanted )
+		$tag = array('tags', 'tag', 'Tags', 'Tag', 'post_tag');
+		
+		$taxonomy = array();
+		if(in_array($tax, $categorie))
 		{
-			if(in_array($wanted, $categorie))
+			array_push($taxonomy, 'category');
+		}
+		elseif(in_array($tax, $tag))
+		{
+			array_push($taxonomy, 'post_tag');
+		}
+		else
+		{
+			array_push($taxonomy, $tax);
+		}
+
+		$Terms_id = array();
+		global $wpdb;
+		foreach($taxonomy as $taxname)
+		{	
+			$tax_terms = $wpdb->get_results("SELECT term_id FROM {$wpdb->prefix}term_taxonomy where taxonomy='{$taxname}';");
+			foreach ($tax_terms as $tax_term)
 			{
-				array_push($this->terms, get_categories());
-			}
-			elseif(in_array($wanted, $tag))
-			{
-				array_push($this->terms, get_tags());
-			}
-			else
-			{
-				if(!post_type_exists($taxname)){
-					die;
-				}			
-				$this->cpt = true;
-				$args = array( 'post_type' => $taxname);
-				$query = new WP_Query( $args );
-				array_push($this->terms, $query->posts);
+				array_push($Terms_id, $tax_term->term_id);
 			}
 		}
+		$this->terms_id = $Terms_id;
 	}
 	
-	public function getTerms() {
-		return($this->terms);
+	public function getTerms_id() {
+		return($this->terms_id);
 	}
 }
 
-class listterm extends listtax {
+class term extends tax {
 //propriété
-	protected $term_id;
-	protected $term_template;
+	protected $term_name;
+	protected $term_id_template;
+	protected $template_active;
 //méthode
-	public function setTerm_id() {
-		$tax = $this->getTerms();
-		$this->term_id = array();
-		
-		foreach($tax as $cats )
-		{
-			foreach($cats as $cat )
-			{	
-				switch ($cat->taxonomy) 
-				{
-					case 'category':
-						array_push($this->term_id, $cat->term_id);	
-						break;
-					case 'post_tag':
-						array_push($this->term_id, $cat->term_id);
-						break;
-				}
-			}
-		}	
-	}
-	
-	public function getTerm_id() {
-		return($this->term_id);
-	}
-	
-	public function setTerm_template($column) {
-		$active = array('active', 'ACTIVE', 'Active');
-		$id = array('id', 'ID', 'Id');
-		$values = '';
-		foreach( $column as $value )
-		{
-			if($value != $column[0])
-			{
-				$values .= ', ';
-			}
-			
-			if(in_array($value, $id))
-			{
-				$values .= 'id';
-			}
-			elseif(in_array($value, $active))
-			{
-				$values .= 'active';
-			}
-			else
-			{
-				$values .= '';
-			}
-		}
-		$ids = '';
-		$terms_id = $this->getTerm_id();
-		foreach($terms_id as $term_id)
-		{
-			if($term_id != $terms_id[0])
-			{
-				$ids .= ' AND ';
-			}
-			$ids= 'term_id='.$term_id;
-		}
+	public function setTerm_name($term_id) {
 		global $wpdb;
-		$this->term_template = $wpdb->get_results("SELECT {$values} FROM {$wpdb->prefix}terms_template where {$ids}");
-	}	
+		$termsname = $wpdb->get_results("SELECT name FROM {$wpdb->prefix}terms where term_id='{$term_id}';");
+		$this->term_name = $termsname[0]->name;
+	}
+
+	public function getTerm_name() {
+		return($this->term_name);
+	}
+	
+	public function setTerm_id_template($term_id) {
+		global $wpdb;
+		$template = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}terms_template where term_id={$term_id};");
+		if(!empty($template))
+		{
+			$this->term_id_template = $template[0]->id;
+		}
+	}
 	
 	public function getTerm_template() {
-		return($this->term_template);
+		return($this->term_id_template);
+	}
+	
+	public function setTemplate_active($term_id) {
+		global $wpdb;
+		$template = $wpdb->get_results("SELECT active FROM {$wpdb->prefix}terms_template where term_id={$term_id};");
+		if(!empty($template))
+		{
+			$this->term_id_template = $template[0]->active;
+		}
+	}
+	
+	public function getTemplate_active() {
+		return($this->template_active);
 	}
 }
+

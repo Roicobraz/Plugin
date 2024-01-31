@@ -3,16 +3,41 @@
 		$content = '<h1>Gestion des templates des pages archives</h1>';
 		echo($content);
 		
+		$categories = new term;	
+		$categories->setTaxname('categories');
+		$category = $categories->getTaxname(); 
+		$categories->setTerms_id($category);	
+		$cat_terms = $categories->getTerms_id();
 		
-		$test = new listterm;	
-		$test->setTax(array('categories', 'tags'));
-		$test->setTerms();
-		$test->setTerm_id();
-		$test->setTerm_template(array('id', 'active')); 
-		$test->setTitle( array('Nom', 'Id', 'Template', 'Actif'));
-		$test->setActive("&#9989;", "&#10060;");
-		$test->setBoard($test->getTerm_id());
-		echo $test->getBoard();
+		$tab = new tableau;	
+		$tab->setTitle( array('Nom', 'Id', 'Template', 'Actif'));
+		$title = $tab->getTitle();
+		$tab->setActive("&#9989;", "&#10060;");
+		$content = array();	
+		
+		foreach( $cat_terms as $cat_term )
+		{
+			$categories->setTerm_name($cat_term);
+			$categories->setTerm_id_template($cat_term);
+			$categories->setTemplate_active($cat_term);
+			
+			$elements = array( $categories->getTerm_name(),$cat_term, $categories->getTerm_template(), $categories->getTemplate_active());
+			$tab->setRow($elements);
+			array_push($content, $tab->getRow());
+		}
+		
+		
+		$tab->setBoard($title, $content);
+		echo $tab->getBoard();
+
+		
+		
+		$tags = new tax;	
+		$tags->setTaxname('post_tag');
+		$tag = $tags->getTaxname(); 
+		$tags->setTerms_id($tag);	
+		$tags->getTerms_id();
+		
 	}
 
 /*add_action( 'edit_terms', 'do_something_or_stop_update', 10, 2 ); 
