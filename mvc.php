@@ -1,5 +1,5 @@
 <?php 
-	require('controler/class.php');
-	require('modele/class.php');	
-	require('view/content_pages.php');
+	require_once('controler/class.php');
+	require_once('modele/class.php');	
+	require_once('view/content_pages.php');
 ?>

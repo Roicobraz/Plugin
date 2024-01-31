@@ -36,6 +36,23 @@ function add(){
 	VALUES ({$test}, {$test}, {$test})");	
 }
 
+function add_id()
+{
+	global $wpdb;
+	$post_id = get_the_id();
+	$wpdb->query($wpdb->prepare("
+	IF EXISTS (SELECT * FROM {$wpdb->prefix}terms_template where term_id = {$post_id})
+	BEGIN
+   		UPDATE {$wpdb->prefix}terms_template SET id = {$_POST['template']}, active = {$_POST['active']} where term_id = {$post_id}
+	END
+	ELSE
+	BEGIN
+		INSERT INTO {$wpdb->prefix}terms_template (active, id, term_id) VALUES ({$_POST['active']}, {$_POST['template']}, {$post_id})
+	END
+	"));
+}
+add_action('save_post_category', 'add_id', 15 );
+
 function del(){
 	global $wpdb;
 	$wpdb->query("DROP TABLE {$wpdb->prefix}terms_template;");

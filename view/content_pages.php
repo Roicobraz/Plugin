@@ -3,9 +3,16 @@
 		$content = '<h1>Gestion des templates des pages archives</h1>';
 		echo($content);
 		
-		$categories = new tableau;
-		$categories->setBoard(array('categories', 'tags'));
-		echo($categories->getBoard());	
+		
+		$test = new listterm;	
+		$test->setTax(array('categories', 'tags'));
+		$test->setTerms();
+		$test->setTerm_id();
+		$test->setTerm_template(array('id', 'active')); 
+		$test->setTitle( array('Nom', 'Id', 'Template', 'Actif'));
+		$test->setActive("&#9989;", "&#10060;");
+		$test->setBoard($test->getTerm_id());
+		echo $test->getBoard();
 	}
 
 /*add_action( 'edit_terms', 'do_something_or_stop_update', 10, 2 ); 
@@ -21,7 +28,7 @@ function do_something_or_stop_update( $term_id, $taxonomy ){
 	}
 
 //	add_action( 'edit_term', 'pdf_save_magazine', 10, 3 );
-add_action( "save_{$taxonomy}", 'pdf_save_magazine', 10, 3 );
+//add_action( "save_{$taxonomy}", 'pdf_save_magazine', 10, 3 );
 //add_action( 'save_post_tag', 'capitaine_reading_time', 10, 3 );
 
 	function my_custom_fields() {  
@@ -30,9 +37,12 @@ add_action( "save_{$taxonomy}", 'pdf_save_magazine', 10, 3 );
 
 		$default = '';
 		
-		if(($request[0]->id) == null)
+		if(!empty($request))
 		{
-			$default = 'selected';
+			if(($request[0]->id) == null)
+			{
+				$default = 'selected';
+			}
 		}
 		
 		$content = "<option {$default} disabled>-- Sélectionner --</option>";
@@ -47,10 +57,14 @@ add_action( "save_{$taxonomy}", 'pdf_save_magazine', 10, 3 );
 			$title = get_the_title();
 			$id = get_the_id();
 			$current = '';
-			if(($request[0]->id) == $id)
+			if(!empty($request))
 			{
-				$current = 'selected';
+				if(($request[0]->id) == $id)
+				{
+					$current = 'selected';
+				}
 			}
+
 			$content .= "<option {$current} value='{$link}'>{$title}</option>";
 		}
 		wp_reset_query();

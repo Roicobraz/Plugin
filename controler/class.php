@@ -1,118 +1,87 @@
 <?php 
-class listtax {
+class tableau {
 //propriété
-	private $tax;
-	private $terms;
-	private $cpt;
+	private $board;
+	private $title;
+
+	private $active;
 //méthode
-	public function setTax($taxname){
-		$this->tax = $taxname;
-	}
-	
-	public function getTax(){
-		return($this->tax);
-	}
-	
-	public function setTerms($taxname) {
-		$this->setTax($taxname);
-		$this->terms = array(
-			'cat'=>array(), 
-			'tag'=>array(), 
-			'tax'=>array()
-		);
-		$content = '';
-		$categorie = array('categories', 'categorie', 'category', 'Categories', 'Categorie', 'Category');
-		$tag = array('tags', 'tag', 'Tags', 'Tag');
-		
-		foreach( $this->tax as $wanted )
+	public function setTitle($titles){
+		$code_html = '<tr>';
+		foreach ($titles as $title)
 		{
-			if(in_array($wanted, $categorie))
+			$code_html .= '
+			<th class="manage-column">
+				'.$title.'
+			</th>';
+		}
+		$code_html .= '</tr>';
+		$this->title = $code_html;
+	}
+	public function getTitle(){
+		return($this->title);
+	}
+	
+	public function setActive($check, $cross){
+		$this->active = array($check, $cross);
+	}
+	public function getActive(){
+		return($this->active);
+	}
+		
+	public function setBoard($taxname){	
+		
+		$title = $this->getTitle();
+		
+		$code_html = '';
+		for ($i = 0; $i < count($this->term_name); $i++){
+			$name = $this->term_name[$i];
+			$id = $this->term_id[$i];
+			
+			if(empty($this->term_on[$i]))
 			{
-				array_push($this->terms['cat'], get_categories());
-			}
-			elseif(in_array($wanted, $tag))
-			{
-				array_push($this->terms['tag'], get_tags());
+				$template = "-";
 			}
 			else
 			{
-				if(!post_type_exists($taxname)){
-					die;
-				}			
-				$this->cpt = true;
-				$args = array( 'post_type' => $taxname);
-				$query = new WP_Query( $args );
-				array_push($this->terms['tax'], $query->posts);
+				$template = get_the_title($this->term_template[$i]);
 			}
-		}
-	}
-	
-	public function getTerms() {
-		return($this->terms);
-	}
-}
-
-class listterm extends listtax {
-//propriété
-	protected $term_id;
-	protected $term_name;
-	protected $term_template;
-	protected $term_on;
-//méthode
-	public function setTerm($taxname) {
-		$this->setTerms($taxname);
-		$tax = $this->getTerms();
-		$this->term_name = array();
-		$this->term_id = array();
-		$this->term_template = array();
-		$this->term_on = array();
-		
-		$content = '';
-		global $wpdb;
-		$request = $wpdb->get_results("SELECT id, active FROM {$wpdb->prefix}terms_template /*where term_id=*/");
-		
-		foreach($tax['cat'] as $cats )
-		{
-			foreach($cats as $cat )
-			{	
-				array_push($this->term_name, $cat->name);
-				array_push($this->term_id, $cat->term_id);	
-			}
+						
+			$code_html .= '
+			<tr>
+				<td>
+					'.$name.'
+				</td>
+				<td>
+					'.$id.'
+				</td>
+				<td>
+					'.$template.'
+				</td>				
+				<td>
+					'.$this->active.'
+				</td>
+			</tr>';
 		}
 		
-		foreach($tax['tag'] as $tags )
-		{
-			foreach($tags as $tag )
-			{	
-				array_push($this->term_name, $tag->name);
-				array_push($this->term_id, $tag->term_id);	
-			}
-		}
+		$content = '
+		<table class="wp-list-table widefat fixed striped table-view-list pages">
+			<thead>
+				'.$title.'
+			</thead>
+			<tbody>
+				'.$code_html.'
+			</tbody>
+			<tfoot>
+				'.$title.'
+			</tfoot>
+		</table>
+		';
 		
-		foreach($request as $term )
-		{
-			array_push($this->term_template, $term->id);
-			array_push($this->term_on, $term->active);
-		}		
-		
-		foreach($this->term_name as $test)
-		{
-			$content .= ''.$test;
-		}
+		$this->board = $content;
 	}
 	
-	public function getTerm_id() {
-		return($this->term_id);
-	}
-	
-	public function getTerm_name() {
-		return($this->term_name);
-	}
-	public function getTerm_template() {
-		return($this->term_template);
-	}
-	
-	public function getTerm_on() {
-		return($this->term_on);
+	public function getBoard(){	
+		return($this->board);
 	}
 }

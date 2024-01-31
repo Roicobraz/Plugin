@@ -8,6 +8,6 @@
 * Author URI: https://www.your-site.com/
 **/
 
-require('page_plugin.php');
-require('mvc.php');
-require('functions.php');
+require_once('page_plugin.php');
+require_once('mvc.php');
+require_once('functions.php');
