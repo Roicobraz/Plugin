@@ -15,60 +15,70 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 	<?php foreach ($categoryterm as $term ):{ ?>
 		<tr class="iedit author-self level-0 post-125 type-post status-publish format-standard hentry category-test tag-untag">
 			<td class='title column-title has-row-actions column-primary page-title'>
-				<?php print_r($term[0]->name); ?>
+				<a href="<?= get_category_link($term[0]->term_id)?>"><?php print_r($term[0]->name); ?></a>
 			</td>
 			<td class='title column-title has-row-actions column-primary page-title'>
 				<?php print_r($term[0]->term_id); ?>
 			</td>
-				<?php foreach ($test as $test1):{ 
-			print_r($test1[0]);
-			echo('<br>')
-//			if(($test1->term_id) == ($term[0]->term_id))
-//			{
-				?>
+				<?php foreach ($templates_cat as $template):{ 
+				if(!empty($template[0]->id))
+				{
+					if($term[0]->term_id == $template[0]->term_id)
+					{ ?>
 				<td class='title column-title has-row-actions column-primary page-title'>
-				<?php //print_r($test1[0]->id_template); ?>
+					<?php print_r($template[0]->id); ?>
 				</td>
 				<td class='title column-title has-row-actions column-primary page-title'>
-					<?php //print_r($test1[0]->active); ?>
+					<?php print_r($template[0]->active); ?>
+				</td>
+				<?php }
+					else{?>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					-
+				</td>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					0
 				</td><?php
-//			}
-			?>
-
-			
-			<?php }endforeach; ?>
+					}
+				}
+			}endforeach; ?>
 		</tr>
 	<?php }endforeach; 
 		foreach ($post_tagterm as $term ):{ ?>
 		<tr class="iedit author-self level-0 post-125 type-post status-publish format-standard hentry category-test tag-untag">
 			<td class='title column-title has-row-actions column-primary page-title'>
-				<?php print_r($term[0]->name); ?>
+				<a href="<?= get_tag_link($term[0]->term_id)?>"><?php print_r($term[0]->name); ?></a>
 			</td>
 			<td class='title column-title has-row-actions column-primary page-title'>
 				<?php print_r($term[0]->term_id); ?>
 			</td>
-			<td class='title column-title has-row-actions column-primary page-title'>
-				<?php print_r($term[0]->term_id); ?>
-			</td>
-			<td class='title column-title has-row-actions column-primary page-title'>
-				<?php print_r($term[0]->term_id); ?>
-			</td>
+			<?php foreach ($templates_tag as $template):{ 
+				if(!empty($template[0]->id))
+				{
+					if($term[0]->term_id == $template[0]->term_id)
+					{ ?>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					<?php print_r($template[0]->id); ?>
+				</td>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					<?php print_r($template[0]->active); ?>
+				</td>
+				<?php }
+					else{?>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					-
+				</td>
+				<td class='title column-title has-row-actions column-primary page-title'>
+					0
+				</td><?php
+					}
+				}
+			}endforeach; ?>
 		</tr>
 	<?php }endforeach; 
 		?>
 	</tbody>
-	<?php
-//	print_r($term);
-//			echo('<br>');
-//			echo('<br>');
-//
-//	foreach($test as $test1)
-//	{
-//		print_r($test1);
-//		echo('<br>');
-//		echo('<br>');
-//	}
-		?>
+
 	<tfoot>
 		<tr>
 			<td class="manage-column column-author">Nom</td>

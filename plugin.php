@@ -22,6 +22,8 @@ function rudr_top_lvl_menu(){
 	);
 }
 
+require_once('functions.php');
+
 function content_plugin_test(){
 	define('__ROOT__', dirname(__FILE__));
 

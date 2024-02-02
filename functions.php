@@ -1,5 +1,4 @@
 <?php 
-define('__ROOT__', dirname(__FILE__));
 
 /*--------------------------------------------------*/
 /*		Avoir le contenu d'une page via son id		*/

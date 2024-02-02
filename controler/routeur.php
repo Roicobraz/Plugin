@@ -12,7 +12,8 @@ class Routeur {
 
     // Route une requête entrante : exécution l'action associée
     public function routerRequete() {
-        try {
+		$this->ctrlAccueil->accueil();
+        /*try {
             if (isset($_GET['page'])) {
                 if ($_GET['page'] == 'test_plugin') {
 					
@@ -41,14 +42,14 @@ class Routeur {
         catch (Exception $e) {
             //$this->erreur($e->getMessage());
 			$this->ctrlAccueil->accueil();
-        }
+        }*/
     }
 
     // Affiche une erreur
-//    private function erreur($msgErreur) {
-//        $vue = new Vue("erreur");
-//        $vue->generer(array('msgerreur' => $msgErreur));
-//    }
+    private function erreur($msgErreur) {
+        $vue = new Vue("erreur");
+        $vue->generer(array('msgerreur' => $msgErreur));
+    }
 
     // Recherche un paramètre dans un tableau
     private function getParametre($tableau, $nom) {

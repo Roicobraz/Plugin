@@ -47,7 +47,7 @@ class controleurAccueil {
 	public function accueil() {
         $taxonomy = $this->taxonomy->getTaxs(); 
         $term = $this->term->getTerms();
-        $template = $this->template->getTemplates();	
+//        $template = $this->template->getTemplates();	
 		
 		$category = $this->taxonomy->getTax('category');
        	$post_tag = $this->taxonomy->getTax('post_tag');
@@ -55,13 +55,14 @@ class controleurAccueil {
 		$categoryterm = $this->termsoftax('category');
 		$post_tagterm = $this->termsoftax('post_tag');
 		
-		$test = $this->termsoftemplate('category');
+		$templates_cat = $this->termsoftemplate('category');
+		$templates_tag = $this->termsoftemplate('post_tag');
 
         $vue = new Vue("accueil");
         $vue->generer(array(
 			'taxonomies' 	=> $taxonomy,
 			'terms' 		=> $term,
-			'templates' 	=> $template,
+//			'templates' 	=> $template,
 	
 			'category'		=> $category,	
 			'post_tag' 		=> $post_tag,
@@ -69,7 +70,8 @@ class controleurAccueil {
 			'categoryterm' 	=> $categoryterm,
 			'post_tagterm' 	=> $post_tagterm,
 			
-			'test' 			=> $test,
+			'templates_cat' 	=> $templates_cat,
+			'templates_tag' 	=> $templates_tag,
 
 		));
     }
