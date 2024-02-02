@@ -8,7 +8,7 @@
         <title><?php // echo($titre) ?></title>
     </head>
     <body>-->
-        <div id="global">
+        <div id="global" class="wrap">
         	<h1>Gestion des templates des pages archives</h1>
             <div id="contenu">
                 <?= $contenu ?>
