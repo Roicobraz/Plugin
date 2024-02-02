@@ -103,8 +103,14 @@ class controleurAccueil {
     }
 	
 	public function accueil() {
-        $taxonomies = $this->taxonomy->getTaxs();
-        $vue = new Vue("Accueil");
-        $vue->generer(array('taxonomy' => $taxonomies));
+        $taxonomy = $this->taxonomy->getTaxs();
+        $term = $this->term->getTerms();
+        $template = $this->template->getTemplates();
+        $vue = new Vue("accueil");
+        $vue->generer(array(
+			'taxonomy' => $taxonomy,
+			'term' => $term,
+			'template' => $template,
+		));
     }
 }

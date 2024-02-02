@@ -5,11 +5,14 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 	<thead>
 	</thead>
 	<tbody>
-	<?php foreach ($i as $j ):{ ?>
+	<?php foreach ($taxonomy as $j ):{ ?>
 		<tr>
-			<td>test</td>
+			<td><?php print_r($j); ?></td>
 		</tr>
-	<?php }endforeach; ?>
+	<?php }endforeach; 
+		print_r($term);
+		print_r($template);
+		?>
 	</tbody>
 	<tfoot>
 	</tfoot>

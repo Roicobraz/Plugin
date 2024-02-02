@@ -35,11 +35,12 @@ class Routeur {
 				}
             }
             else {  // aucune action définie : affichage de l'accueil
-                $this->ctrlAccueil->accueil();
+               
             }
         }
         catch (Exception $e) {
-            $this->erreur($e->getMessage());
+            //$this->erreur($e->getMessage());
+			$this->ctrlAccueil->accueil();
         }
     }
 
