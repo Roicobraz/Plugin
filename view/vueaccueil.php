@@ -13,7 +13,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 	
 	<tbody>
 	<?php foreach ($categoryterm as $term ):{ ?>
-		<tr class="iedit author-self level-0 post-125 type-post status-publish format-standard hentry category-test tag-untag">
+		<tr class="iedit author-self level-0 type-post status-publish format-standard hentry">
 			<td class='title column-title has-row-actions column-primary page-title'>
 				<a href="<?= get_category_link($term[0]->term_id)?>"><?php print_r($term[0]->name); ?></a>
 			</td>
@@ -29,7 +29,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 					<?php print_r($template[0]->id); ?>
 				</td>
 				<td class='title column-title has-row-actions column-primary page-title'>
-					<?php print_r($template[0]->active); ?>
+					<?php if($template[0]->active){?>&#9989;<?php ;}else {?>&#10060;<?php ;}?>
 				</td>
 				<?php }
 					else{?>
@@ -37,7 +37,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 					-
 				</td>
 				<td class='title column-title has-row-actions column-primary page-title'>
-					0
+					&#10060;
 				</td><?php
 					}
 				}
@@ -45,7 +45,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 		</tr>
 	<?php }endforeach; 
 		foreach ($post_tagterm as $term ):{ ?>
-		<tr class="iedit author-self level-0 post-125 type-post status-publish format-standard hentry category-test tag-untag">
+		<tr class="iedit author-self level-0 type-post status-publish format-standard hentry">
 			<td class='title column-title has-row-actions column-primary page-title'>
 				<a href="<?= get_tag_link($term[0]->term_id)?>"><?php print_r($term[0]->name); ?></a>
 			</td>
@@ -61,7 +61,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 					<?php print_r($template[0]->id); ?>
 				</td>
 				<td class='title column-title has-row-actions column-primary page-title'>
-					<?php print_r($template[0]->active); ?>
+					<?php if($template[0]->active){?>&#9989;<?php ;}else {?>&#10060;<?php ;}?>
 				</td>
 				<?php }
 					else{?>
@@ -69,7 +69,7 @@ $this->titre = "Gestion des templates des pages archives"; ?>
 					-
 				</td>
 				<td class='title column-title has-row-actions column-primary page-title'>
-					0
+					&#10060;
 				</td><?php
 					}
 				}
