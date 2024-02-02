@@ -1,11 +1,17 @@
-<?php 
+<?php
+
+require_once(__ROOT__.'/modele/taxonomy.php');
+require_once(__ROOT__.'/modele/term.php');
+require_once(__ROOT__.'/modele/templates.php');
+
 class tableau {
 //propriété
 	private $board;
 	private $row;
 	private $title;
 	private $active;
-//méthode
+	
+//méthode	
 	public function setTitle($titles){
 		$code_html = '<tr>';
 		foreach ($titles as $title)
@@ -47,12 +53,12 @@ class tableau {
 	public function getRow(){	
 		return($this->row);
 	}
-		
+
 	public function setBoard($title, $content){	
 		$code_html = '';
 		foreach ($content as $test)
 		{
-			print_r($test);
+//			print_r($test);
 			$code_html .= '
 				<tr>
 					<td class="manage-column">';
@@ -81,4 +87,24 @@ class tableau {
 	public function getBoard(){	
 		return($this->board);
 	}
+}
+
+class controleurAccueil {
+//propriété
+	private $taxonomy;
+	private $term;
+	private $template;
+//méthode
+
+    public function __construct() {
+        $this->taxonomy = new taxonomy();
+        $this->term = new term();
+        $this->template = new template();
+    }
+	
+	public function accueil() {
+        $taxonomies = $this->taxonomy->getTaxs();
+        $vue = new Vue("Accueil");
+        $vue->generer(array('taxonomy' => $taxonomies));
+    }
 }

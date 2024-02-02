@@ -1,6 +1,5 @@
 <?php 
 
-
 add_action( 'admin_menu', 'rudr_top_lvl_menu' );
  
 function rudr_top_lvl_menu(){

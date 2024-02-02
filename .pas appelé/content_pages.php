@@ -3,6 +3,33 @@
 		$content = '<h1>Gestion des templates des pages archives</h1>';
 		echo($content);
 		
+		/*
+		*	récupération des taxonomies
+		*/
+		$tax = new taxonomy;
+		$taxonomies = $tax->getTaxs();
+		$taxonomy = $tax->getTax('post_tag');
+//		print_r($taxonomy);
+		
+		/*
+		*	récupération des terms
+		*/
+		$classterm = new term;
+		$terms = $classterm->getTerms();
+		$term = $classterm->getTerm(1);
+//		print_r($term);
+		
+		/*
+		*	récupération des templates
+		*/
+		$classtemplates = new template;
+		$templates = $classtemplates->getTemplates();
+		$template = $classtemplates->getTemplate(145);
+//		print_r($templates);
+//		print_r($template);
+		
+		
+		
 		$categories = new term;	
 		$categories->setTaxname('categories');
 		$category = $categories->getTaxname(); 
@@ -17,6 +44,7 @@
 		
 		foreach( $cat_terms as $cat_term )
 		{
+			
 			$categories->setTerm_name($cat_term);
 			$categories->setTerm_id_template($cat_term);
 			$categories->setTemplate_active($cat_term);
@@ -26,18 +54,8 @@
 			array_push($content, $tab->getRow());
 		}
 		
-		
 		$tab->setBoard($title, $content);
 		echo $tab->getBoard();
-
-		
-		
-		$tags = new tax;	
-		$tags->setTaxname('post_tag');
-		$tag = $tags->getTaxname(); 
-		$tags->setTerms_id($tag);	
-		$tags->getTerms_id();
-		
 	}
 
 /*add_action( 'edit_terms', 'do_something_or_stop_update', 10, 2 ); 
